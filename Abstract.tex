@@ -1,0 +1,116 @@
+%!TEX program = lualatex
+%% -*- fill-column: 120; indent-tabs-mode: nil; tab-width: 2; -*-
+\documentclass[
+  parskip=half,
+  DIV=11,
+]{scrartcl}
+
+\usepackage[ngerman]{babel}
+\usepackage[utf8]{inputenc}
+\usepackage[german=guillemets]{csquotes}
+\usepackage{luacode}
+\usepackage[dvipsnames, cmyk]{xcolor}
+\usepackage{graphicx}
+\usepackage{multicol}
+\usepackage{tikz}
+\usetikzlibrary{positioning, calc}
+\usepackage{tikzpagenodes}
+\usepackage{fancyvrb}
+\usepackage{multicol}
+
+\usepackage{fontspec}
+\defaultfontfeatures{Ligatures=TeX}
+\setsansfont{SourceSansPro-Light}[
+  BoldFont = SourceSansPro,
+  ItalicFont = SourceSansPro-Light-it,
+]
+\renewcommand{\familydefault}{\sfdefault}
+
+\sloppy
+
+\title{
+    Das personzentrierte Edukations- und Begleitungsangebot für Menschen mit chronischen Schmerzen
+    \textquote{ALGEA}
+}
+\subject{Exposée}
+\author{Sandra Hackenberg}
+
+\begin{document}
+\maketitle
+
+\begin{displayquote}\itshape In Deutschland litten aktuell 3,4 Millionen Menschen an schwersten
+    chronischen Schmerzen, sagte Kongresspräsident Johannes Horlemann. Dem stünden nur rund 1.200
+    ambulant tätige Schmerzmediziner gegenüber. Für eine flächendeckende Versorgung wären mindestens
+    10.000 nötig, erläuterte der Präsident der Deutschen Gesellschaft für
+    Schmerzmedizin.\footnote{Deutsches Ärzteblatt, 22.07.2020}
+\end{displayquote}
+
+\begin{multicols}{2}
+Die Versorgung von Patientinnen und Patienten mit chronischen Schmerzen ist vor allem im ambulanten
+Bereich noch bei weitem nicht auf dem Niveau, die sie haben sollte. Vor allem fehlt es an Angeboten
+mit ganzheitlichem Ansatz, welche die Betroffenen niedrigschwellig und über einen längeren Zeitraum
+hinweg begleiten.
+
+Das Angebot setzt sich aus verschiedenen Elementen der Bereiche Erwachsenenpädagogik und Patientenedukation sowie medizinischer und psychologischer Therapie und Prävention zusammen.  Es trägt den
+vorläufigen Arbeitstitel ALGEA\footnote{In der griechischen Mythologie sind die Algea die drei
+Töchter der Göttin der Zwietracht, Eris, und treten als Personifikation von Kummer, Leid und
+Schmerzen auf.} und richtet sich an erwachsene Patientinnen und Patienten mit einer chronischen
+Erkrankung, welche als ein Symptom (oft als Hauptsymptom) Schmerzen haben. Darunter fallen zum
+Beispiel verschiedene Formen von Kopfschmerzen und Migräne, Rückenschmerzen, Schmerzen durch
+Spastiken, bspw. in Folge von Schlaganfällen oder Multipler Sklerose, Nervenschädigungen, bspw.
+durch eine Polyneuropathie, nach Infektionen, Unfällen, Operationen und vieles mehr.
+
+Sowohl am Arbeitsplatz als auch im familiären Umfeld erleben Schmerzpatientinnen und -patienten
+massive Einschränkungen der Lebensqualität. Diese körperliche und psychische Dauerbelastung führt
+oftmals zu einem Teufelskreis aus Schmerzen, Angst, Anspannung und depressiver Verstimmung. Um die Wechselwirkungen zwischen Schmerzerleben, Gedanken, Gefühlen und Verhalten zu verstehen und Veränderungen möglich zu machen ist oft eine intensive
+Begleitung und Unterstützung notwendig, insbesondere da die chronische Erkrankung zumeist schon
+viele Jahre besteht.
+
+Das Angebot findet in den Praxisräumen der behandelnden Ärztin bzw. des behandelnden Arztes statt,
+also in einem Umfeld, das die Betroffenen bereits gut kennen. Es ist über einen Zeitraum von
+mindestens 20 Wochen angelegt, um eine langfristige enge Betreuung zu ermöglichen und besteht aus
+mehreren Phasen mit Einzel- und Gruppengesprächen im Wechsel, sowie einem Selbstlernmodul. 
+
+Kernmerkmal des Angebots ist neben der langen Dauer der Begleitung vor allem seine Flexibilität. Es
+basiert auf den Grundgedanken der personzentrierten Gesprächspsychotherapie nach Carl Rogers. Daher
+nimmt es den Menschen in seiner Ganzheit und Individualität wahr und respektiert seine Freiheit und
+Eigenverantwortung in hohem Maße. Dementsprechend lässt es das Angebot sowohl inhaltlich als auch
+von seiner zeitlichen Gestaltung her ausdrücklich zu, es an die jeweiligen Bedürfnisse der/des
+Einzelnen anzupassen. Im Gegensatz zu üblichen klinischen und tagesklinischen Ansätzen legt es den
+Betroffenen keinen festen \textquote{Stundenplan} vor. Stattdessen macht es Vorschläge, zeigt Ideen
+und Möglichkeiten auf; die Patientin bzw. der Patient erarbeitet mit Unterstützung der professionellen Schmerzbegleiterin,
+welche davon am besten zu ihr/ihm und der individuellen Lebenssituation passen.
+
+Langfristiges Ziel des Begleitungsangebots ist es, Betroffene zu befähigen, Anforderungssituationen des
+täglichen Lebens, welche durch die Schmerzerkrankung stark beeinträchtigt werden, besser zu
+meistern. 
+
+Das Angebot nimmt Schmerzerleben ganzheitlich in den Blick und will den betroffenen Menschen auf
+den drei Ebenen Kopf, Herz und Hand\footnote{Die begriffliche Triade geht zurück auf die
+ganzheitliche Pädagogik Pestalozzis; derselbe Grundgedanke findet sich aber ebenso in aktuellen
+Ansätzen der Schmerzbehandlung nach dem bio-psycho-sozialen Modell bzw. der 3-Säulen-Therapie.}
+ansprechen: Kognitiv, sozio-emotional und psychomotorisch. 
+\begin{itemize}
+\item Kognitive Ebene (\textquote{Kopf}): Gesundheits- und krankheitsbezogenes Wissen, Pathogenese
+und Salutogenese, medizinisches Basiswissen zur eigenen Erkrankung, Wirkweise von Medikation,
+Zusammenhänge zwischen Körper, Seele und Umwelt
+\item Sozio-emotionale Ebene (\textquote{Herz}): Schmerz als seelisches Erleben, Auswirkungen auf
+Selbstwertgefühl, Selbstwirksamkeit, soziale Beziehungen; biographische Einflüsse
+\item Handlungsebene (\textquote{Hand}): Strategien für das Management der eigenen
+Erkrankung, z.B. Therapieplanung, Schmerzbewältigungsstrategien, Entspannungstechniken, körperliche
+Aktivierung, Nutzung von Unterstützungsangeboten wie Selbsthilfegruppen, Beratungsstellen etc.
+\end{itemize}
+
+Nach meinem bisherigen Kenntnisstand existieren noch keine Behandlungsprogramme, die dieses Mehrebenen-Konzept außerhalb von stationären
+Settings über einen längeren Zeitraum für Betroffene anbieten und dabei einen niedrigschwelligen
+Zugang (kaum Bürokratie, kurze Wartezeit bis zum Beginn, flexible Gestaltung) in einem bekannten
+Umfeld anbieten. Während in klassischen Ansätzen eine typische Aufgabenverteilung an zahlreiche, oft
+weitgehend isoliert voneinander arbeitende Fachkräfte, wie Ärztinnen, Psychologinnen,
+Physiotherapeuten und Sozialarbeiter stattfindet, bietet ALGEA die Chance, diese Fäden an einem Ort
+zusammenlaufen zu lassen und die Patienten ins Zentrum eines Netzwerks aus Unterstützern zu setzen,
+ohne ihre Eigenverantwortung zu schmälern. Auf diese Weise kann das Angebot eine Bedarfslücke für
+schwer betroffene Schmerzpatientinnen und Schmerzpatienten schließen.
+
+\end{multicols}
+
+\end{document}
