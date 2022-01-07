@@ -3,9 +3,9 @@
 \documentclass[
   twoside,
   parskip=half-,
-  %BCOR=0pt,
-  %DIV=50,
-  %14pt,
+  paper=176mm:246mm,
+  BCOR=14mm,
+  DIV=14,
 ]{scrreprt}
 
 \usepackage[ngerman]{babel}
@@ -23,89 +23,146 @@
 \usepackage{enumitem}
 \usepackage{longtable}
 \usepackage{pdfpages}
-\usepackage{tocloft}
 \usepackage{array}
 \usepackage{rotating}
+
+
+%%% colors %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% https://www.flerlagetwins.com/2021/06/datafam-colors-color-palette.html
+% Flat Palette #7
+\definecolor{snowflurry}{HTML}{baf56a}
+%\definecolor{dead99}{HTML}{0b1933}
+\definecolor{dead99}{cmyk}{1, 0.6, 0, 0.7}
+\definecolor{dead100}{HTML}{9bb5ff}
+\definecolor{verdigris}{HTML}{45ADA8}
+\definecolor{oceancurrent}{HTML}{547980}
+\definecolor{donjuan}{HTML}{594F4F}
+% \definecolor{neonfuchsia}{HTML}{FE4365}
+% \definecolor{rubberradish}{HTML}{FC9D9A}
+% \definecolor{lipsofapricot}{HTML}{F9CDAD}
+% \definecolor{deserthotsprings}{HTML}{C8C8A9}
+% \definecolor{midcenturygem}{HTML}{83AF9B}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%%% section style %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\RedeclareSectionCommands[
+  afterindent=false,
+  beforeskip=3em,
+]{chapter}
+\RedeclareSectionCommands[font=\bfseries\color{dead99}]{paragraph}
+
+\makeatletter
+\renewcommand\chapterlinesformat[3]{%
+  \begin{tikzpicture}[
+      every node/.style={
+        inner xsep=0pt,
+        inner ysep=0pt,
+        outer xsep=0pt,
+        outer ysep=0pt,
+      },
+  ]
+  \node[
+      inner xsep=0pt,
+      inner ysep=0pt,
+      text=darkgray,
+      align=right,
+      text width=\linewidth,
+      font=\normalfont\fontsize{40}{30}\selectfont,
+  ] (number)
+  {\ifblank{#2}{}{\hfill\thechapter}};
+  \node[
+      inner xsep=0pt,
+      inner ysep=0pt,
+      text=dead99,
+      text width=\linewidth,
+      below=10pt of number,
+      outer ysep=10pt,
+    ] (title)
+    {%
+      \parbox{\dimexpr\textwidth-1em\relax}{\MakeUppercase{#3}}%
+    };
+    \path[
+      line width=3pt,
+      draw=dead99,
+    ]
+    (title.south west) -- (title.south east);
+    \path[
+      line width=3pt,
+      draw=dead99,
+    ]
+    (title.north west) -- (title.north east);
+  \end{tikzpicture}%
+}
+\renewcommand\sectionlinesformat[4]{%
+  \begin{tikzpicture}[
+      every node/.style={inner xsep=0pt, inner ysep=0pt},
+  ]
+  \node[
+      inner xsep=0pt,
+      inner ysep=0pt,
+      text=dead99,
+    ] (title)
+    {%
+      \parbox{
+          \dimexpr\textwidth-2em\relax
+      }{
+          \raggedsection\@hangfrom{\hspace*{#2}\smaller#3}{\MakeUppercase{\bfseries #4}}
+      }
+    };
+    \path[
+      line width=2pt,
+      draw=dead99,
+    ]
+    ([yshift=-5pt]title.south west) -- +(2cm, 0pt);
+  \end{tikzpicture}
+}
+\makeatother
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 \newcolumntype{L}[1]{>{\raggedright\let\newline\\\arraybackslash\hspace{0pt}}p{#1}}
 \newcolumntype{C}[1]{>{\centering\let\newline\\\arraybackslash\hspace{0pt}}p{#1}}
 \newcolumntype{R}[1]{>{\raggedleft\let\newline\\\arraybackslash\hspace{0pt}}p{#1}}
 
-
-\newenvironment{linedbox}[2]{
-  \par
-  \def\linedboxtitle{#1}
-  \def\linedboxcolor{#2}
-  \color{#2!50!black}
-  \begin{tikzpicture}[color=\linedboxcolor]
-    \node[
-      inner sep=0pt, 
-      outer xsep=0pt,
-      anchor=west,
-      font=\bfseries\large,
-    ] (A) {\linedboxtitle};
-    \draw[
-      line width=3pt,
-      %line cap=round,
-    ] ($(A.east) + (10pt, 0)$) -- (\textwidth - 5pt, 0);
-  \end{tikzpicture}
- }{%
-  \setlength{\parskip}{0pt}%
-  \par%
-  \begin{tikzpicture}[color=\linedboxcolor]
-    \draw[
-      line width=3pt,
-      %line cap=round,
-    ] (0, 0) -- (\textwidth - 5pt, 0);
-  \end{tikzpicture}
-}
-
-%\newenvironment{praxis}{\begin{linedbox}{Bezug zum geplanten Angebot}{MidnightBlue}}{\end{linedbox}}
-%\newenvironment{beispiel}{\begin{linedbox}{Fallbeispiel}{green}}{\end{linedbox}}
-
-\usepackage[framemethod=tikz]{mdframed}
+%%% boxes %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\usepackage{mdframed}
 \newmdenv[
-  linewidth=3pt,
-  topline=false,
-  bottomline=false,
-  rightline=false,
-  frametitlefont={\Large\bfseries},
-  % frametitlebackgroundcolor=SeaGreen!20!white,
-  linecolor=ForestGreen!50!white,
+  linewidth=1pt,
+  frametitlefont={\Large\bfseries\color{white}},
+  frametitlebackgroundcolor=snowflurry,
+  linecolor=snowflurry,
   innertopmargin=10pt,
   frametitleaboveskip=7pt,
   frametitlebelowskip=7pt,
   skipabove=10pt,
-  apptotikzsetting={\tikzset{mdfframetitlebackground/.append style={
-    left color=ForestGreen!50!white,
-    right color=white,
-  }}},
-  frametitle={Fallbeispiel},
+  backgroundcolor=snowflurry!10!white,
+  innerleftmargin=20pt,
+  innerrightmargin=20pt,
+  innerbottommargin=10pt,
+  frametitle={FALLBEISPIEL},
 ]{beispiel}
 
 \newmdenv[
-  linewidth=3pt,
-  topline=false,
-  bottomline=false,
-  rightline=false,
-  frametitlefont={\Large\bfseries},
-  % frametitlebackgroundcolor=SeaGreen!20!white,
-  linecolor=NavyBlue!50!white,
+  linewidth=1pt,
+  frametitlefont={\Large\bfseries\color{white}},
+  frametitlebackgroundcolor=verdigris,
+  linecolor=verdigris,
   innertopmargin=10pt,
   frametitleaboveskip=7pt,
   frametitlebelowskip=7pt,
   skipabove=10pt,
-  apptotikzsetting={\tikzset{mdfframetitlebackground/.append style={
-    left color=NavyBlue!50!white,
-    right color=white,
-  }}},
-  frametitle={Bezug zum geplanten Angebot},
+  backgroundcolor=verdigris!10!white,
+  innerleftmargin=20pt,
+  innerrightmargin=20pt,
+  innerbottommargin=10pt,
+  frametitle={BEZUG ZUM GEPLANTEN ANGEBOT},
 ]{praxis}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 \usepackage{fontspec}
 \defaultfontfeatures{Ligatures=TeX}
 \setsansfont{SourceSansPro-Light}[
-  BoldFont = SourceSansPro,
+  BoldFont = SourceSansPro-SemiBold,
   ItalicFont = SourceSansPro-Light-it,
 ]
 \renewcommand{\familydefault}{\sfdefault}
@@ -120,8 +177,36 @@
 
 \usepackage[german=guillemets]{csquotes}
 \renewcommand{\mkccitation}[1]{\normalfont\newline\hbox{}\hfill #1}
+
+\makeatletter
 \AtBeginEnvironment{displayquote}{\itshape}
-\renewcommand{\mkenddispquote}[2]{\allowbreak\mbox{}\nobreak\hfill\hbox{\normalfont #2}}
+\renewenvironment*{displayquote}
+  {\begingroup\setlength{\leftmargini}{0pt}\csq@getcargs{\csq@bdquote{}{}}}
+  {\csq@edquote\endgroup}
+\renewcommand{\mkbegdispquote}[2]{}
+\renewcommand{\mkenddispquote}[2]{\nobreak\par\nobreak\mbox{}\nobreak\hfill\hbox{\normalfont\small #2}}
+\makeatother
+
+\surroundwithmdframed[
+    settings={
+        \Ifthispageodd{
+            \booltrue{mdf@rightline}\boolfalse{mdf@leftline}}{
+            \boolfalse{mdf@rightline}\booltrue{mdf@leftline}
+        }
+    },
+    topline=false,
+    bottomline=false,
+    outerlinewidth=2pt,
+    innerlinewidth=0pt,
+    linecolor=dead100,
+    innerleftmargin=20pt,
+    innerrightmargin=20pt,
+    innertopmargin=15pt,
+    innerbottommargin=10pt,
+    % userdefinedwidth=0.9\textwidth,
+    align=center,
+    backgroundcolor=dead100!10!white,
+]{displayquote}
 
 \usepackage[
   style=authoryear-icomp,
@@ -165,15 +250,16 @@
 
 \colorlet{mycol}{black}
 \begin{document}
+\pagenumbering{roman}
 \begin{titlepage}
   \begin{tikzpicture}[remember picture, overlay]
     \node[
-      inner sep=-2pt,
+      inner xsep=-2pt,
       xshift=3cm,
-      yshift=8cm,
+      yshift=6cm,
       anchor=north west,
       color=mycol,
-      font=\fontsize{35pt}{35pt}\selectfont\bfseries,
+      font=\fontsize{30pt}{30pt}\selectfont\bfseries,
       align=left,
     ] at (current page.west) (title) 
     {Planung eines \\
@@ -193,17 +279,12 @@
 
     \node[
       inner sep=0pt,
-      below=2cm of title.south west,
+      below=1cm of title.south west,
       anchor=north west,
-      font=\large,
       color=mycol,
       align=left,
     ] (author) {
-      Sandra Hackenberg, Matrikelnummer 1189082\\[10pt]
-      \normalsize 
-      Erstprüferin: Nicole Luthardt M.A.\\
-      Zweitprüferin: Dr. Verena Schurt\\[10pt]
-      Eingereicht am 5. Januar 2022
+      Sandra Hackenberg
     };
 
     \node[
@@ -212,14 +293,15 @@
       yshift=-1cm,
       anchor=north west,
     ] at (current page.north west) {
-      \includegraphics[height=1.5cm]{unia_logo.pdf}
+      \includegraphics[height=1.3cm]{unia_logo.pdf}
     };
     
     \node[
       inner sep=0pt,
-      xshift=-3cm,
-      yshift=-2.5cm,
+      xshift=-2cm,
+      yshift=-2.3cm,
       anchor=south east,
+      font=\small
     ] at (current page.north east) {
       Lehrstuhl für Erwachsenen- und Weiterbildung
     };
@@ -227,15 +309,10 @@
     \node[
       inner sep=0pt, 
       anchor=south,
-      yshift=3cm,
-      ] at (current page.south){\includegraphics[height=5.5cm]{ExtendedCommunityCircle.pdf}};
+      yshift=3.5cm,
+      ] at (current page.south){\includegraphics[height=3cm]{ExtendedCommunityCircle.pdf}};
   \end{tikzpicture}
 \end{titlepage}
-
-\addtocontents{lof}{\protect\contentsline {figure}{%
-  \protect\numberline {Titel}{\ignorespaces \url{https://openclipart.org/download/170352/ExtendedCommunityCircle.svg}\newline%
-  (Creative Commons Zero 1.0 Public Domain License)}}{0}{}%
-}
 
 \makebox{}
 \vfill
@@ -247,7 +324,25 @@
   Deshalb fahre ich fort, Risiken einzugehen.}
 \vspace*{20pt}
 
+\addchap*{Vorwort}
+Diese Arbeit hat eine Besonderheit: Sie ist nicht perfekt. Sie enthält ganz sicher Fehler. Manche Fehler sind klein, zum Beispiel Tippfehler oder Satzzeichenfehler; andere Fehler sind größer: Vielleicht fehlt es an einigen Stellen an wissenschaftlicher Exaktheit oder Tiefe, vielleicht habe ich nicht jede Überlegung vollkommen stimmig begründet. Je nachdem, wer diese Arbeit liest - ein Arzt, eine Pädagogin, eine Psychologin oder jemand, der mit keinem dieser drei Bereiche etwas zu tun hat - er oder sie wird hinter bestimmte Stellen Fragezeichen schreiben können. 
+
+Ein Grund dafür ist, dass ich selbst weder Ärztin noch Psychologin oder Pädagogin bin. Mein persönliches Fachgebiet ist aus vielen Elementen zusammen gesetzt und existiert so nur einmal, nämlich bei mir. 
+
+Ein weiterer Grund für die Un-Perfektion dieser Arbeit liegt in einem bewussten, absichtlichen Nein zu einer Art zu denken, die mich seit der Grundschule begleitet hat: Ich wollte immer das Beste, das Maximum aus mir heraus holen - zur Not auch mit Gewalt. Ich habe mich selbst zum Lernen angetrieben bis zur psychischen und physischen Grenze, über 15 Jahre lang. Die Ergebnisse waren fast durchgehend beeindruckend - aber im Inneren haben sie mich leer gemacht statt erfüllt. Perfekt sein war irgendwann \textquote{das Mindeste} - Fehler zu machen erlaubten sich nur die Dummen und Faulen. 
+
+Erst heute, am Tag der Abgabe dieser Arbeit, ist mir vollständig klar geworden, dass der Schlüssel zu mehr Zufriedenheit, mehr Lebendigkeit, mehr Gesundheit darin liegt und all die Jahre gelegen hätte: Ich darf unperfekt sein, denn unperfekt ist der menschliche Normalzustand. Aus Angst vor Bewertung und Abwertung wollte ich jeden denkbaren Fehler von vornherein vermeiden und habe meine ganze Energie darauf verwendet, die Ansprüche, die von außen kamen, zu erfüllen, statt mich zu fragen, was eigentlich gut für mich wäre. Die Maßstäbe anderer waren meine einzige Messlatte, die Bewertung meiner Leistung wurde zur Abwertung meines ganzen Ich.
+Mit anderen Worten: Ich lernte immer für den Lehrer, nie für das Leben und schon gar nicht für mich selbst. 
+
+Das Studium, das ich im Winter 2016 kurz vor dem Ziel abgebrochen habe bringe ich heute mit der Abgabe dieser Arbeit im Winter 2021/2022 doch noch zu einem Ende. Ich hätte noch Zeit übrig gehabt, den Text so lange zu verbessern, bis ich ihn für perfekt gehalten hätte - und dennoch hätten andere am Ende Fragezeichen hinter bestimmte Stellen geschrieben. 
+
+Stattdessen habe ich getan, was gut für mich ist: Ich habe mich mit Freude den Themen gewidmet, die mich interessieren und die für mich relevant sind, und der Rest hat die Aufmerksamkeit erfahren, die notwendig war, um zu bestehen. 
+
+Ich stelle fest: Unperfekt sein erfordert Mut! Die Erwartungen anderer erfüllen zu wollen kostet Kraft, aber es ist auch in mancher Hinsicht einfacher, denn herauszufinden, was man selbst wirklich will und wer man selbst letztlich ist - das ist eine viel größere Herausforderung.
+
 \clearpage
+
+\pagenumbering{arabic}
  
 \tableofcontents
 
@@ -349,7 +444,6 @@ Im \textbf{Schmerzzentrum} Starnberger See in Feldafing können Patient:innen na
 Die folgende Berechnung soll beispielhaft verdeutlichen, inwiefern das geplante Angebot die Zeitspanne verlängert, die Patient:innen zur Verfügung gestellt wird, um ihr übergeordnetes Lernziel in Bezug auf die Schmerzerkrankung (Verbesserung der Lebensqualität) zu erreichen.
 
 Die längste mögliche Betreuungszeit der hier beispielhaft genannten Einrichtungen bietet das Schmerzzentrum Feldafing an; wenn eine Patientin seit beispielsweise 10 Jahren an einer chronischen Schmerzerkrankung leidet, würden sieben Wochen dort 1,35 Prozent der Zeit entsprechen, in der sich die Schmerzen aufgebaut und verfestigt haben. Die Patientin erhält in dieser Zeit eine hohe Anzahl Psychoedukationseinheiten. Am Ende dieser sieben Wochen müsste sie dann gelernt haben, wie sie ihre Erkrankung alleine so gut bewältigt, dass sie nicht mehr auf weitere Hilfe und Betreuung angewiesen ist (es sei denn durch gelegentliche Facharzttermine). Legt man bei dem geplanten Angebot eine Dauer von 6 Monaten zu Grunde, würde sich die Lernzeit für diese Betroffene auf 24 Wochen und damit auf 4,6 Prozent der vorhergegangenen \textquote{Schmerzlebenszeit} erhöhen, dies entspricht dann ungefähr dem 3,5fachen. Manche der Patient:innen, welche die Zielgruppe für das Angebot bilden, haben bereits mindestens eine multimodale Therapie stationär oder tagesklinisch absolviert; die Lernzeit würde also um 24 Wochen verlängert bzw. ergänzt. Diese zusätzliche Lernzeit gäbe den Betroffenen mehr Raum und Gelegenheit für eine Reflexion ihrer Erkrankung, der damit einhergehenden Gefühle und gedanklichen Muster sowie zum Erlernen neuer Bewältigungsstrategien. Es gibt Studien, die Hinweise darauf erbracht haben, dass ein Mehr an Lernzeit das Behandlungsergebnis verbessern kann \autocite[vgl. Engers et al. 2008, zit. n.][20]{wachter}. Eine Studie aus China zeigt, dass eine erhöhte Dosis Psychoedukationseinheiten bei Patient:innen mit bipolarer Störung zu einer besseren Wirkung (vermindertes Rückfallrisiko, erhöhte Funktionsfähigkeit im Alltag) führt \autocite[vgl. Chen Chen R. et al. 2019, zit. n.][]{China}; es ist möglich, dass dies auch auf Patient:innen mit chronischen Schmerzen (welche häufig von einer Depression begleitet werden) zutrifft.
-
 \end{praxis}
 
 \paragraph{Beispielrechnung 2: Angespannte Versorgungslage in Augsburg}
@@ -648,7 +742,7 @@ Die Lehrkraft wird dementsprechend als  Person betrachtet, deren Aufgabe die Erm
 
 \begin{figure}
   \centering
-  \includegraphics[width=1.1\textwidth]{Grafiken/Der Schmerzkranke im Mittelpunkt.pdf}
+  \includegraphics[angle=90, origin=c, height=0.8\paperwidth]{Grafiken/Der Schmerzkranke im Mittelpunkt.pdf}
   \caption{Der schmerzkranke Mensch im Mittelpunkt (eigene Darstellung)}
   \label{fig:schmerzmensch}
 \end{figure}
@@ -693,12 +787,15 @@ Es ergeben sich für Anbieter von Bildungsdienstleistungen einige Herausforderun
 
 Die Ergebnisse von Bedarfsanalysen müssen daher bestimmten Prioritäten unterworfen und auf heterogene Zielgruppen zugeschnitten werden.  
 
+
 \begin{praxis}
   Da die Gruppe der Patient:innen mit chronischen Schmerzerkrankungen aufgrund des demographischen Wandels, d.h. der Alterung der Gesamtgesellschaft, stetig größer wird und zudem ein Versorgungsdefizit dieser Menschen besteht, ist nicht damit zu rechnen, dass der Bedarf an Betreuung und Begleitung dieser Zielgruppe langfristig zurückgehen wird - vielmehr im Gegenteil. 
   In diesem Zusammenhang interessant ist die Unterscheidung zwischen manifestem und latentem Bedarf: Tatsächlich ist davon auszugehen, dass sich die allermeisten Betroffenen mehr Rat, Hilfe und Unterstützung im Umgang mit ihrer Erkrankung wünschen; dies wird jedoch nicht immer so klar geäußert und kann sich auch daran zeigen, dass sich Termine in Praxen und Kliniken häufen, eine Vielzahl an Therapiemethoden, sowohl aus dem schulmedizinischen als auch alternativen (bis hin zum esoterischen) Bereich gesucht werden und im persönlichen Gespräch die fortwährende gedankliche Fixierung auf diesen Kreislauf aus vergeblichen Heilungsversuchen, Enttäuschung und Frustration erkennbar ist \autocite[vgl.][10ff.]{richter}. Einig sind sich die Betroffenen in dem (Bildungs-)Bedürfnis, ihre Erkrankung verstehbar und handhabbar zu machen und die eigene Lebensqualität steigern zu wollen. Die konkreten Bedarfe (im Sinne von Strategien und Vorstellungen darüber, wie dieses Bedürfnis befriedigt werden soll) innerhalb der Zielgruppe sind jedoch sehr verschieden, wie in der Zielgruppenanalyse noch zu sehen sein wird. 
 \end{praxis}
 
 Als Schritt innerhalb der Durchführung der Bedarfsanalyse werden zunächst in einer \textbf{Umfeldanalyse} Umfeldfaktoren analysiert und bewertet. Dazu gehören sowohl Akteure, also \textquote[{\cite[10]{kos}}]{Personen, Gruppen oder Organisationen, die in Bezug auf das Bildungsangebot Beteiligte oder Betroffene sind (direkt und indirekt) - sog. Stakeholder}, als auch äußere Einflüsse gesellschaftlicher, politischer oder ökonomischer Art \autocite{kos}.
+
+\pagebreak
 
 \begin{praxis}
   Ein Bildungsangebot kann sinnvollerweise nie isoliert, sondern muss immer im Kontext des Umfeldes betrachtet werden, in das es eingebettet ist. Im Folgenden wird daher ein typisches, beispielhaftes Umfeld analysiert, in dem das geplante Angebot stattfinden könnte: eine Haus- oder Facharztpraxis.
@@ -870,10 +967,12 @@ Zur Veranschaulichung der drei Lernzieldimensionen (kognitive, affektiv-soziale 
  
  \begin{figure}
   \centering
-  \includegraphics[width=1.1\textwidth]{Grafiken/KopfHerzHand.pdf}
+  \includegraphics[width=\textwidth]{Grafiken/KopfHerzHand.pdf}
   \caption{Die drei Bausteine Kopf, Herz und Hand (eigene Darstellung)}
   \label{fig:bausteine}
 \end{figure}
+
+\pagebreak
 
 \begin{beispiel}
   In einem der ersten Beratungsgespräche mit einer 45-jährigen Schmerzpatientin stellt sich beim Besprechen der drei Bausteine - Kopf, Herz und Hand - heraus, dass sie selbst sich als \textquote{Kopfmenschen} sieht und sich dementsprechend schon viel Fachwissen über ihre Erkrankung angeeignet hat. Obwohl sie sich auch schon in der Theorie über Schmerzbewältigungsstrategien informiert hat ist es bisher nicht gelungen, diese aktiv-handelnd im Alltag umzusetzen. Die Hinwendung zu den eigenen Gefühlen in Bezug auf das Schmerzerleben beschreibt die Patientin als sehr schwierig, da sie in einer Familie aufgewachsen ist, in der das Zeigen von Gefühlen als Schwäche ausgelegt und nicht gern gesehen wurde. Ihr ist aber bewusst, dass ihre negativen Emotionen in Bezug auf den Schmerz diesen stark beeinflussen. Es zeichnet sich also ab, dass die individuellen Lernziele in ihrem Fall den Schwerpunkt auf der affektiv-sozialen Ebene und auf der Handlungsebene haben werden. Das große fachliche Interesse sowie das hohe Maß an Bildung und Intelligenz werden als bestehende Ressourcen der Patientin identifiziert, die auch in Bezug auf die anderen Bausteine genutzt werden können. 
@@ -953,7 +1052,7 @@ Die Lerninhalte müssen passend zu den Lernzielen ausgewählt werden; zur Vorber
 
 \begin{figure}
   \centering
-  \includegraphics[width=0.7\textwidth]{Grafiken/Strategien.pdf}
+  \includegraphics[width=0.9\textwidth]{Grafiken/Strategien.pdf}
   \caption{Bio-psycho-soziale Strategien der Schmerzbewältigung (eigene Darstellung)}
   \label{fig:biopsychosozial}
 \end{figure}
@@ -1061,6 +1160,7 @@ Für das gesamte Angebot ist eine Dauer von einem halbem Jahr vorgesehen. Diese 
 
 \begin{figure}[h!]
 \centering
+\small
 \begin{tikzpicture}[
   every node/.style={
     align=center,
@@ -1076,41 +1176,41 @@ Für das gesamte Angebot ist eine Dauer von einem halbem Jahr vorgesehen. Diese 
   \definecolor{greenish}{RGB}{84,180,53}
   \node[
     fill=blueish!80!gray,
-    text width=170pt,
+    text width=0.4\textwidth,
    ] (A)
    {
     4 Teilnehmende, pro TN 14 Einzelgespräche zu 45 Minuten + 15 Minuten Vor-/Nachbereitungszeit für Dozent:in \\[15pt]
-    \large\bfseries 56 Stunden
+    \larger\bfseries 56 Stunden
    };
    \node[
-    text width=90pt,
+    text width=0.2\textwidth,
     fill=blueish2!80!gray,
     xshift=5pt,
    ] (B) at (A.east)
    {
      5 Gruppensitzungen zu 120 Minuten + 1 Gruppensitzung zu 60 Minuten \\[15pt]
-     \large\bfseries 11 Stunden
+     \larger\bfseries 11 Stunden
    };
    \node[
-    text width=110pt,
+    text width=0.3\textwidth,
     fill=orangish!30!blueish!80!gray,
     xshift=5pt,
    ] (C) at (B.east)
    {
     Geschätzte Vor- und Nachbereitungszeit pro Gruppensitzung: 4 Stunden \\[15pt]
-    \large\bfseries 24 Stunden
+    \larger\bfseries 24 Stunden
    };
 
    \node[
      fill=greenish!80!white,
      yshift=-5pt,
-     text width=170pt + 90pt + 110pt + 30pt,
+     text width=0.9\textwidth + 30pt,
      anchor=north west,
      line width=1.5pt,
      minimum height=1cm,
    ] at (A.south west)
    {
-     \Large Zeitaufwand: \bfseries 91 Stunden
+     \larger Zeitaufwand: \bfseries 91 Stunden
    };
 \end{tikzpicture}
 \caption{Schätzung des Zeitaufwands (eigene Darstellung)}
@@ -1166,33 +1266,30 @@ Insgesamt wurde deutlich, dass die Angebotsplanungsphase einen zentralen Stellen
 \cleardoublepage
 \addcontentsline{toc}{chapter}{\listfigurename}
 
-%\addtocontents{lof}{\protect\contentsline{figure}{Foobar}{100}}
-
-
 \listoffigures
 
 \appendix
-\chapter{Deutscher Schmerzfragebogen}
+% \chapter{Deutscher Schmerzfragebogen}
 
-Der \textquote{Deutsche Schmerzfragebogen} (DSF) ist ein Basisfragebogen, der von der Deutschen Schmerzgesellschaft e.V. entwickelt wurde und zur \textquote[{\cite[45]{glier}}]{Standarddiagnostik} gehört. Er erfasst sowohl das sensorische als auch das affektive Schmerzempfinden, die Intensität und Beeinträchtigung durch den Schmerz sowie das psychische Befinden, insbesondere im Hinblick auf Depressivität, Angst und Stress. Ein separates Modul gibt Auskunft über die subjektive Lebensqualität der betroffenen Person. Darüber hinaus werden anamnestisch wichtige Informationen erhoben, z.B. zu bisherigen Therapien, Operationen und Medikation. Diesem Fragebogen kommt in der Betreuung von Menschen mit chronischen Schmerzerkrankungen eine besondere Bedeutung zu: 
+% Der \textquote{Deutsche Schmerzfragebogen} (DSF) ist ein Basisfragebogen, der von der Deutschen Schmerzgesellschaft e.V. entwickelt wurde und zur \textquote[{\cite[45]{glier}}]{Standarddiagnostik} gehört. Er erfasst sowohl das sensorische als auch das affektive Schmerzempfinden, die Intensität und Beeinträchtigung durch den Schmerz sowie das psychische Befinden, insbesondere im Hinblick auf Depressivität, Angst und Stress. Ein separates Modul gibt Auskunft über die subjektive Lebensqualität der betroffenen Person. Darüber hinaus werden anamnestisch wichtige Informationen erhoben, z.B. zu bisherigen Therapien, Operationen und Medikation. Diesem Fragebogen kommt in der Betreuung von Menschen mit chronischen Schmerzerkrankungen eine besondere Bedeutung zu: 
 
-\begin{displayquote}[{\cite{DSFFragebogen}}]
-Der subjektive Bericht des Patienten über seine Erkrankung und eine möglichst umfassende standardisierte Erhebung und Berücksichtigung aller beitragenden Aspekte besitzt in der Schmerzdiagnostik einen zentralen Stellenwert.
-Als generisches Instrument erfasst der Deutsche Schmerzfragebogen (DSF) diese Aspekte und erleichtert so im Vorfeld der individuellen Schmerzanamnese durch den Therapeuten (Arzt, Psychologe usw.) die Analyse der Schmerzsituation und die systematische Therapieplanung. Er ist Voraussetzung für die notwendigen Verlaufskontrollen und bahnt den Therapieerfolg.
-\end{displayquote}
+% \begin{displayquote}[{\cite{DSFFragebogen}}]
+% Der subjektive Bericht des Patienten über seine Erkrankung und eine möglichst umfassende standardisierte Erhebung und Berücksichtigung aller beitragenden Aspekte besitzt in der Schmerzdiagnostik einen zentralen Stellenwert.
+% Als generisches Instrument erfasst der Deutsche Schmerzfragebogen (DSF) diese Aspekte und erleichtert so im Vorfeld der individuellen Schmerzanamnese durch den Therapeuten (Arzt, Psychologe usw.) die Analyse der Schmerzsituation und die systematische Therapieplanung. Er ist Voraussetzung für die notwendigen Verlaufskontrollen und bahnt den Therapieerfolg.
+% \end{displayquote}
 
-Als unter wissenschaftlichen Bedingungen entwickeltes und evaluiertes, weit verbreitetes Werkzeug in der Schmerztherapie kann der DSF auch im geplanten Angebot verwendet werden, um auf standardisierte Weise Informationen zu sammeln. Diese können die Basis sein für die Festlegung des individuellen Ist-Stands, der Lernziele und sie können als Ausgangspunkt für die ständige Überprüfung des Fortschritts bzw. des Krankheitsverlaufs der Teilnehmenden dienen.
+% Als unter wissenschaftlichen Bedingungen entwickeltes und evaluiertes, weit verbreitetes Werkzeug in der Schmerztherapie kann der DSF auch im geplanten Angebot verwendet werden, um auf standardisierte Weise Informationen zu sammeln. Diese können die Basis sein für die Festlegung des individuellen Ist-Stands, der Lernziele und sie können als Ausgangspunkt für die ständige Überprüfung des Fortschritts bzw. des Krankheitsverlaufs der Teilnehmenden dienen.
 
-Der Fragebogen kann als pdf-Version gebührenfrei bei der Deutschen Schmerzgesellschaft e.V. angefordert werden, ein Handbuch ist verfügbar. Es ist möglich, das Deckblatt des Fragebogens für die medizinische Einrichtung zu personalisieren; es müssen auch nicht alle Module des sehr umfangreichen Fragebogens in jedem Zusammenhang zum Einsatz kommen. Die hier angefügte Version stammt vom DRK Schmerzzentrum Mainz; dort ist der Fragebogen frei zum Download verfügbar.\footnote{\url{https://www.drk-schmerz-zentrum.de/mz-wAssets/docs/aktuelles/mz-deutscher-schmerzfragebogen-2020-01.pdf}, abger. am 01.12.2021}
+% Der Fragebogen kann als pdf-Version gebührenfrei bei der Deutschen Schmerzgesellschaft e.V. angefordert werden, ein Handbuch ist verfügbar. Es ist möglich, das Deckblatt des Fragebogens für die medizinische Einrichtung zu personalisieren; es müssen auch nicht alle Module des sehr umfangreichen Fragebogens in jedem Zusammenhang zum Einsatz kommen. Die hier angefügte Version stammt vom DRK Schmerzzentrum Mainz; dort ist der Fragebogen frei zum Download verfügbar.\footnote{\url{https://www.drk-schmerz-zentrum.de/mz-wAssets/docs/aktuelles/mz-deutscher-schmerzfragebogen-2020-01.pdf}, abger. am 01.12.2021}
 
-\includepdf[pages=-,nup=2x2]{Grafiken/mz-deutscher-schmerzfragebogen-2020-01.pdf}
+% \includepdf[pages=-,nup=2x2]{Grafiken/mz-deutscher-schmerzfragebogen-2020-01.pdf}
 
 \chapter{Notizen zu telefonischen Anfragen}
 
 \rotatebox[origin=bl]{90}{%
 \renewcommand{\arraystretch}{1.7}
-\small
-\begin{tabular}{L{4cm}L{1cm}L{2.5cm}L{3cm}L{3cm}L{1.5cm}L{1.5cm}}
+\scriptsize
+\begin{tabular}{L{3cm}L{1cm}L{2.5cm}L{2cm}L{2.5cm}L{1cm}L{1cm}}
   Einrichtung & Art & Wartezeit & Aufenthaltsdauer/Programmdauer & Nachbetreuung möglich? & Ende nach & Telefonat\\
   Schmerzzentrum Starnberger See\newline
   Benedictus-Krankenhaus 
